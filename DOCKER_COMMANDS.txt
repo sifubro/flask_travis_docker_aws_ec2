@@ -1,0 +1,132 @@
+HOST LOCALLY WITH DOCKER
+========================
+
+list images: docker images
+list containers: docker ps
+
+remove image: docker image rm -f 391399456188
+remove container: docker rm -f 391399456188
+
+# BUILD
+docker build -t docker_flask_api .
+
+# RUN !!!!!!! REMEMBER THE PORT
+docker run --rm -ip 3000:3000 --name docker_flask_api_container docker_flask_api
+
+========================================================================================
+
+HOST IN AWS
+===========
+
+# tagging iamges before pusing to dockerhub
+docker tag <existing-image> <hub-user>/<repo-name>[:<tag>]
+
+# docker login
+sifubro
+a270188ma$$$
+
+# push to docker hub
+docker push <hub-user>/<repo-name>:<tag>
+
+# pulling image from docker hub
+docker.io/library/mysql:latest
+docker.io/sifubro/first_image_test:v1
+docker.io/sifubro/second_image_test:v1
+
+# Pushing docker image to dockerHub
+https://docs.docker.com/docker-hub/repos/#:~:text=To%20push%20an%20image%20to,docs%2Fbase%3Atesting%20).
+
+#deploying
+#https://reflectoring.io/aws-deploy-docker-image-via-web-console/
+see also
+!!!!!!!!!!!!The AWS Journey Part 1_ Deploying Your First Docker Image - Reflectoring
+
+========================================================================================
+
+TRAVIS CI
+=========
+
+# Configure the .travis.yml file
+
+sudo: required
+services:
+  - docker
+  
+before_install:
+  - docker build -t sifubro/first_image_test_travis -f Dockerfile .
+
+script:
+  - 
+
+#then in docker cli:
+docker run Image npm run test -- --coverage
+
+
+
+
+
+
+When you run a build, Travis CI clones your GitHub repository into a brand-new virtual environment, and carries out a series of tasks 
+to build and test your code. If one or more of those tasks fail, the build is considered broken. If none of the tasks fail, the build 
+is considered passed and Travis CI can deploy your code to a web server or application host.
+
+CI builds can also automate other parts of your delivery workflow. This means you can have jobs depend on each other with Build Stages, 
+set up notifications, prepare deployments after builds and many other tasks.
+
+https://app.travis-ci.com/getting_started
+
+https://docs.travis-ci.com/user/languages/python/
+
+https://docs.travis-ci.com/user/tutorial/
+
+https://docs.travis-ci.com/
+
+# SOME COMMANDS
+https://stackoverflow.com/questions/34377017/what-are-the-differences-between-the-before-install-script-travis-yml-opti?fbclid=IwAR2GhJzeHs0M0jtUYXwl9Gn6rOOiLf5QCBbTgAUwmnsXNErcuWH7KKygI28
+
+
+
+
+
+
+IMPORTANT
+- https://docs.travis-ci.com/user/job-lifecycle/
+
+
+
+TO LEARN
+- caching dependencies and directories??
+https://docs.travis-ci.com/user/caching
+
+- 
+
+========================================================================
+
+CREATE pytests in tests folders
+
+========================================================================
+
+PUSH TO GIT
+===========
+
+git add .
+git commit -m "added travis file"
+git push origin master
+
+========================================================================
+Travis CI will automatically do the tests...
+
+========================================================================
+https://sweetcode.io/flask-app-github-travis-heroku/
+
+Push the Docker image to DockerHub.
+To enable Travis CI to orchestrate this build and deployment to DockerHub, create a directory called .travis 
+in your root directory and add a file called deploy_dockerhub.sh. 
+https://sweetcode.io/flask-app-github-travis-heroku/
+
+Under the Settings view of your repository on Travis CI, set the environment variables used in the script as shown
+https://sweetcode.io/flask-app-github-travis-heroku/
+
+Finally, in your .travis.yml file, add the following lines to it:
+after_success:
+- sh .travis/deploy_dockerhub.sh
